@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 
-export const useFetch = (url: string) => {
+export const useFetch = (url: string, method: 'GET' | 'POST' = 'GET') => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-      fetch(url)
+      fetch(url, { method })
       .then(response => {
         if (!response.ok) { 
           throw Error('could not fetch the data for that resource');
