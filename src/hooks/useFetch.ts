@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 
-export const useFetch = (url: string, method: 'GET' | 'POST' = 'GET') => {
-  const [data, setData] = useState(null);
+export const useFetch = <T>(apiCall: (...args: any[]) => Promise<Response>) => {
+  const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-      fetch(url, { method })
+  const request = (...args: unknown[]) => {
+      apiCall(...args)
       .then(response => {
         if (!response.ok) { 
           throw Error('could not fetch the data for that resource');
         } 
         return response.json();
       })
-      .then(data => {
+      .then((data: T) => {
         setIsLoading(false);
         setData(data);
         setError(null);
@@ -22,7 +22,7 @@ export const useFetch = (url: string, method: 'GET' | 'POST' = 'GET') => {
         setIsLoading(false);
         setError(err.message);
       })
-  }, [url])
+  }
 
-  return { data, isLoading, error };
+  return { data, isLoading, request, error };
 }

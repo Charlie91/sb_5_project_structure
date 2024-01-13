@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './App.css'
-import { Reservation } from './pages/Reservation'
+import { ReservationPage } from './pages/Reservation'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -12,7 +12,7 @@ function App() {
         <a href='#'>Контакты</a>
       </header>
       <main>
-        <Reservation />
+        <ReservationPage />
       </main>
       <footer>2024 ©</footer>
     </>

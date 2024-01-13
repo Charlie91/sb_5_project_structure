@@ -2,8 +2,8 @@ import './styles.css';
 
 type TProps = {
     value: string | undefined;
-    onChange: (e: React.SyntheticEvent<HTMLInputElement>) => void;
-    disabled: boolean;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    disabled?: boolean;
     placeholder?: string;
 }
 

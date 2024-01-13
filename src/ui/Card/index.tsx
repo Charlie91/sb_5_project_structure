@@ -17,13 +17,13 @@ export const Card = ({ img, features, title, description, badges, onChooseRoom }
             <img src={img} />
             <ul className='features'>
                 {features.map(feature => (
-                    <li>{feature}</li>
+                    <li key={feature}>{feature}</li>
                 ))}
             </ul>
             <h3>{title}</h3>
             <p>{description}</p>
             <div className='badges'>
-                {badges.map(badge => <div className='badge'>{badge}</div>)}
+                {badges.map(badge => <div key={badge} className='badge'>{badge}</div>)}
             </div>
             <Button onClick={handleButtonClick}>Выбрать</Button>
         </div>
