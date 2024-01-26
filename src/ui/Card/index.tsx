@@ -2,16 +2,17 @@ import { Button } from "../Button";
 import './styles.css';
 
 type TProps = {
+    id: string;
     img: string;
     features: string[];
     title: string;
     description: string;
     badges: string[];
-    onChooseRoom: (roomName: string) => void;
+    onChooseRoom: (roomId: string) => void;
 };
 
-export const Card = ({ img, features, title, description, badges, onChooseRoom }: TProps) => {
-    const handleButtonClick = () => onChooseRoom(title);
+export const Card = ({ id, img, features, title, description, badges, onChooseRoom }: TProps) => {
+    const handleButtonClick = () => onChooseRoom(id);
     return (
         <div className='card'>
             <img src={img} />

@@ -11,9 +11,9 @@ export const ReservationPage = () => {
 
     const { data, request, isLoading } = useFetch<Room[]>(getAvailableRooms);
 
-    const handleOnRoomClick = (roomName: Room['title']) => {
+    const handleOnRoomClick = (roomId: Room['id']) => {
         if (data) {
-            const chosenRoom = data.find(room => room.title === roomName);
+            const chosenRoom = data.find(room => room.id === roomId);
             chosenRoom && chooseRoom(chosenRoom);    
         }
     }
