@@ -1,6 +1,6 @@
 import './styles.css'
 import { useEffect, useState } from 'react';
-import { useFetch } from '../../hooks/useFetch';
+import { useRoomList } from '../../hooks/useRoomList';
 import { getAvailableRooms } from '../../api/reservation';
 import { Room  } from "./types";
 import { ReservationForm } from './ReservationForm';
@@ -9,18 +9,12 @@ import { AvailableRooms } from './AvailableRooms';
 export const ReservationPage = () => {
     const [chosenRoom, chooseRoom] = useState<Room | null>(null);
 
-    const { data, request, isLoading } = useFetch<Room[]>(getAvailableRooms);
+    const { data, isLoading } = useRoomList();
 
     const handleOnRoomClick = (roomId: Room['id']) => {
-        if (data) {
-            const chosenRoom = data.find(room => room.id === roomId);
-            chosenRoom && chooseRoom(chosenRoom);    
-        }
+        const chosenRoom = data.find(room => room.id === roomId);
+        chosenRoom && chooseRoom(chosenRoom);    
     }
-
-    useEffect(() => {
-        request();
-    }, []);
 
     if (isLoading) {
         return <div>
