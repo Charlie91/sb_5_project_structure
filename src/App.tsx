@@ -6,19 +6,21 @@ import { BaseLayout } from './ui/BaseLayout/BaseLayout';
 import {
   QueryClient,
   QueryClientProvider,
-} from 'react-query'
+} from '@tanstack/react-query'
 
 const queryClient = new QueryClient()
 
 function App() {
-  const [currentRoute, setCurrentRoute] = useState(ROUTES[0]?.id);
+  const [currentRoute = '', setCurrentRoute] = useState(
+    ROUTES.find(route => location.pathname.includes(route.path))?.id,
+  );
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <RouterContext.Provider value={{ currentRoute, setCurrentRoute }}>
-        <BaseLayout />
-      </RouterContext.Provider>
-    </QueryClientProvider>
+    <RouterContext.Provider value={{ currentRoute, setCurrentRoute }}>
+      <QueryClientProvider client={queryClient}>
+          <BaseLayout />
+      </QueryClientProvider>
+    </RouterContext.Provider>
   )
 }
 

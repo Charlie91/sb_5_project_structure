@@ -3,8 +3,8 @@ import { TextField } from '../../ui/TextField';
 import { Button } from '../../ui/Button'
 import { useEffect, useState } from "react";
 import { validateByPhone } from "../../utils/validate";
-import { useFetch } from "../../hooks/useFetch";
 import { getPostRequestForRoomReservation } from "../../api/reservation";
+import { useMutation } from "@tanstack/react-query";
 
 type TProps = {
     room: Room;
@@ -15,23 +15,25 @@ export const ReservationForm = ({ room, onBack }: TProps) => {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
 
-    const { data, request, isLoading, error } = useFetch(getPostRequestForRoomReservation);
+    const { isSuccess, mutate, isPending } = useMutation({
+        mutationFn: getPostRequestForRoomReservation,
+    })
 
     const submitForm = () => {
         if (!name || !validateByPhone(phone)) {
             alert('Введите имя или правильный номер телефона')
         } else {
-            const response = request({ name, phone });
+            const response = mutate({ name, phone });
         }
     }
 
     useEffect(() => {
-        if (data && !error) {
+        if (isSuccess) {
             alert('Спасибо! Наши менеджеры скоро свяжутся с Вами.')
         }
-    }, [data, error]);
+    }, [isSuccess]);
 
-    if (isLoading) {
+    if (isPending) {
         <div>Заявка отправляется...</div>
     }
 
