@@ -1,8 +1,8 @@
 import './styles.css'
 import { useState } from 'react';
-import { useRoomList } from '../../hooks/useRoomList';
 import { Room  } from "./types";
-import { Card } from '../../ui/Card';
+import { ReservationForm } from './ReservationForm';
+import { AvailableRooms } from './AvailableRooms';
 
 const data = [
     {
@@ -54,15 +54,9 @@ const data = [
 export const ReservationPage = () => {
     const [chosenRoom, chooseRoom] = useState<Room | null>(null);
 
-    const { data, isLoading } = useRoomList();
-
-    const handleOnRoomClick = (roomId: Room['id']) => {}
-
-    if (isLoading) {
-        return <div>
-            <p>Пожалуйста, подождите</p>
-            <p>Номера доступные для бронирования скоро появятся здесь</p>
-        </div>
+    const handleOnRoomClick = (roomId: Room['id']) => {
+        const chosenRoom = data.find(room => room.id === roomId);
+        chosenRoom && chooseRoom(chosenRoom);    
     }
 
     return (
@@ -78,20 +72,13 @@ export const ReservationPage = () => {
                     <span>Подтверждение бронирования</span>
                 </div>
             </div>
-            <div className='card_wrapper'>
-                {data.map(item => (
-                    <Card
-                        id={item.id}
-                        key={item.title}
-                        img={item.src}
-                        features={item.features}
-                        title={item.title}
-                        description={item.description}
-                        badges={item.badges}
-                        onChooseRoom={handleOnRoomClick}
-                    />
-                ))}
-            </div>
+            {!chosenRoom ? (
+                <div className='card_wrapper'>
+                    <AvailableRooms onChooseRoom={handleOnRoomClick} rooms={data || []} />
+                </div>
+            ) : (
+                <ReservationForm room={chosenRoom} onBack={chooseRoom} />
+            )}
         </>
     )
 }
