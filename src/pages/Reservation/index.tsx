@@ -1,20 +1,62 @@
 import './styles.css'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRoomList } from '../../hooks/useRoomList';
-import { getAvailableRooms } from '../../api/reservation';
 import { Room  } from "./types";
-import { ReservationForm } from './ReservationForm';
-import { AvailableRooms } from './AvailableRooms';
+import { Card } from '../../ui/Card';
+
+const data = [
+    {
+      "src": "/affordable.png",
+      "title": "Стандарт",
+      "description": "Уютная атмосфера, необходимая мебель и удобное расположение делают этот номер отличным выбором для краткосрочного проживания",
+      "badges": [],
+      "features": [
+        "2-х местный номер",
+        "₽3700 за ночь"
+      ],
+      "price": "₽3700",
+      "id": "4a2b"
+    },
+    {
+      "src": "/seaview.jpg",
+      "title": "Люкс",
+      "description": "Идеальное решение для комфортного проживания двоих. Здест есть все необходимое для отдыха и работы: удобная двухспальная кровать, шкаф для одежды, тумбочки, стол, стул, телевизор.",
+      "badges": [
+        "Вид на море",
+        "Душ в номере"
+      ],
+      "features": [
+        "2-х местный номер",
+        "₽15 000 за ночь"
+      ],
+      "price": "₽15 000",
+      "id": "04a3"
+    },
+    {
+      "src": "/president.jpg",
+      "title": "Президентский",
+      "description": "Настоящий шедевр роскоши и комфорта. С его просторных балконов открывается захватывающий вид на город, а интерьер поражает своим великолепием и изысканностью.",
+      "badges": [
+        "Питание включено",
+        "Душ в номере",
+        "Трансфер",
+        "Предоплата"
+      ],
+      "features": [
+        "2-х местный номер",
+        "₽99 999 за ночь"
+      ],
+      "price": "₽99 999",
+      "id": "059b"
+    }
+  ];
 
 export const ReservationPage = () => {
     const [chosenRoom, chooseRoom] = useState<Room | null>(null);
 
     const { data, isLoading } = useRoomList();
 
-    const handleOnRoomClick = (roomId: Room['id']) => {
-        const chosenRoom = data.find(room => room.id === roomId);
-        chosenRoom && chooseRoom(chosenRoom);    
-    }
+    const handleOnRoomClick = (roomId: Room['id']) => {}
 
     if (isLoading) {
         return <div>
@@ -36,13 +78,20 @@ export const ReservationPage = () => {
                     <span>Подтверждение бронирования</span>
                 </div>
             </div>
-            {!chosenRoom ? (
-                <div className='card_wrapper'>
-                    <AvailableRooms onChooseRoom={handleOnRoomClick} rooms={data || []} />
-                </div>
-            ) : (
-                <ReservationForm room={chosenRoom} onBack={chooseRoom} />
-            )}
+            <div className='card_wrapper'>
+                {data.map(item => (
+                    <Card
+                        id={item.id}
+                        key={item.title}
+                        img={item.src}
+                        features={item.features}
+                        title={item.title}
+                        description={item.description}
+                        badges={item.badges}
+                        onChooseRoom={handleOnRoomClick}
+                    />
+                ))}
+            </div>
         </>
     )
 }
