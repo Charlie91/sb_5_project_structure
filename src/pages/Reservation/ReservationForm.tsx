@@ -8,7 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 
 type TProps = {
     room: Room;
-    onBack: (a: null) => void; 
+    onBack: () => void; 
 }
 
 export const ReservationForm = ({ room, onBack }: TProps) => {
@@ -54,7 +54,7 @@ export const ReservationForm = ({ room, onBack }: TProps) => {
                 />
             </form>
             <div className='button_wrapper'>
-                <Button type='outline' onClick={() => onBack(null)}>Назад</Button>
+                <Button type='outline' onClick={onBack}>Назад</Button>
                 <Button 
                     disabled={!name || !phone} 
                     onClick={submitForm}

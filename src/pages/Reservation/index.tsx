@@ -16,6 +16,8 @@ export const ReservationPage = () => {
         chosenRoom && chooseRoom(chosenRoom);    
     }
 
+    const getBackToFirstStep = () => chooseRoom(null);
+
     if (isLoading) {
         return <div>
             <p>Пожалуйста, подождите</p>
@@ -41,7 +43,7 @@ export const ReservationPage = () => {
                     <AvailableRooms onChooseRoom={handleOnRoomClick} rooms={data || []} />
                 </div>
             ) : (
-                <ReservationForm room={chosenRoom} onBack={chooseRoom} />
+                <ReservationForm room={chosenRoom} onBack={getBackToFirstStep} />
             )}
         </>
     )
